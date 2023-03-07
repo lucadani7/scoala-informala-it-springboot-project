@@ -56,6 +56,7 @@ public class OrderController {
                 });
     }
 
+    @DeleteMapping("/orders/delete/{orderID}")
     public void deleteOrder(long orderID) {
         String messageException = String.format("The order with id %s does not exist!", orderID);
         Optional<Order> optionalOrder = orderRepository.findById(orderID);
