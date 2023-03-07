@@ -1,12 +1,13 @@
-package org.siit.logisticsystem.controllers;
+package org.siit.logisticsystem.controller;
 
 import org.siit.logisticsystem.entity.Destination;
-import org.siit.logisticsystem.exceptions.DestinationException;
+import org.siit.logisticsystem.exception.DestinationException;
 import org.siit.logisticsystem.service.DestinationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/destinations")
@@ -34,13 +35,13 @@ public class DestinationController {
     }
 
     @GetMapping("/{id}")
-    public Destination getDestinationById(@PathVariable Long id) {
+    public Optional<Destination> getDestinationById(@PathVariable Long id) {
         try {
-            return destinationService.findById(id).get();
+            return destinationService.findById(id);
         } catch (DestinationException destinationException) {
             System.out.println(destinationException.getMessage());
         }
-        return null;//nu a murit nimeni
+        return Optional.empty();//nu a murit nimeni
     }
 
     @GetMapping()

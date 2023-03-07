@@ -1,4 +1,4 @@
-package org.siit.logisticsystem.exceptions;
+package org.siit.logisticsystem.exception;
 
 public class DestinationException extends RuntimeException {
 

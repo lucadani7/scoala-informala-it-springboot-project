@@ -1,8 +1,9 @@
 package org.siit.logisticsystem.service;
 
 import org.siit.logisticsystem.entity.Destination;
-import org.siit.logisticsystem.exceptions.DestinationException;
-import org.siit.logisticsystem.repositories.DestinationRepository;
+import org.siit.logisticsystem.exception.DestinationException;
+
+import org.siit.logisticsystem.repository.DestinationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
