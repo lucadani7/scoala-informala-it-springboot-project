@@ -1,4 +1,4 @@
-package org.siit.logisticsystem.service;
+package org.siit.logisticsystem.controller;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;

@@ -43,8 +43,8 @@ public class PopulateDbService {
     private void populateDestination() {
 
         List<Destination> destinationList = new ArrayList<>();
-
-        try (Scanner scanner = new Scanner(Paths.get("src/main/resources/files/destinations.csv"))) {
+        // please provide the full path, like this:
+        try (Scanner scanner = new Scanner(Paths.get("logistic-system/src/main/resources/files/destinations.csv"))) {
             while (scanner.hasNext()) {
                 String line = scanner.nextLine();
                 String[] s = line.split(",");
@@ -62,8 +62,8 @@ public class PopulateDbService {
 
     private void populateOrder() {
         List<Order> orderList = new ArrayList<>();
-
-        try (Scanner scanner = new Scanner(Paths.get("src/main/resources/files/orders.csv"))) {
+        // please provide the full path, like this:
+        try (Scanner scanner = new Scanner(Paths.get("logistic-system/src/main/resources/files/orders.csv"))) {
             while (scanner.hasNext()) {
                 String line = scanner.nextLine();
                 String[] s = line.split(",");
