@@ -13,6 +13,8 @@ import java.util.Optional;
 @RequestMapping("/destinations")
 public class DestinationController {
 
+    // Replace @ModelAttribute annotation with @RequestBody annotation
+
     @Autowired
     private DestinationService destinationService;
 
@@ -34,6 +36,7 @@ public class DestinationController {
         }
     }
 
+    // No exceptions needed
     @GetMapping("/{id}")
     public Optional<Destination> getDestinationById(@PathVariable Long id) {
         try {
@@ -48,6 +51,8 @@ public class DestinationController {
     public List<Destination> getAllDestinations() {
         return destinationService.findAll();
     }
+
+    // No exceptions needed
     @DeleteMapping("/{id}")
     public void deleteDestination(@PathVariable Long id){
         try {

@@ -15,6 +15,12 @@ public class DestinationService {
     @Autowired
     private DestinationRepository destinationRepository;
 
+
+    // Too long.
+    // Replace DestinationException with DuplicatesNotAllowedException
+    // Your method should look like this:
+    // if (...) throw DuplicatesNotAllowedException(...);
+    // destinationRepository.save(destination);
     public void save(Destination destination) {
 
         if (destinationRepository.existsById(destination.getId())) {
@@ -24,6 +30,7 @@ public class DestinationService {
         }
     }
 
+    // No exceptions needed
     public void update(Destination destination) {
         if (destinationRepository.existsById(destination.getId())) {
             destinationRepository.save(destination);
@@ -32,6 +39,9 @@ public class DestinationService {
         }
     }
 
+    // Not good.
+    // Replace DestinationException with DataNotFoundException
+    // Use Optional class
     public void delete(Long id) {
         if (destinationRepository.existsById(id)) {
             destinationRepository.deleteById(id);
@@ -39,6 +49,10 @@ public class DestinationService {
             throw new DestinationException("Id doesn't exist ");
         }
     }
+
+    // Not good.
+    // Replace DestinationException with DataNotFoundException
+    // Use Optional class
     public Optional<Destination> findById(Long id){
         if (destinationRepository.existsById(id)) {
             return destinationRepository.findById(id);

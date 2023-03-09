@@ -16,7 +16,7 @@ public class CompanyInfoContributor implements InfoContributor {
 
     @Override
     public void contribute(Info.Builder builder) {
-        builder.withDetail("currentDate", orderService.getCurrentDate())
-                .withDetail("profit", orderService.calculateProfit());
+        builder.withDetail("currentDate", orderService.getCurrentDate());
+                // withDetail("profit", orderService.calculateProfit());
     }
 }
