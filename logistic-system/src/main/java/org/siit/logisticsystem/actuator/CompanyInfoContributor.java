@@ -1,5 +1,6 @@
 package org.siit.logisticsystem.actuator;
 
+import org.siit.logisticsystem.controller.CurrentData;
 import org.springframework.boot.actuate.info.Info;
 import org.springframework.boot.actuate.info.InfoContributor;
 import org.springframework.stereotype.Component;
@@ -8,15 +9,15 @@ import org.springframework.stereotype.Component;
 @Component
 public class CompanyInfoContributor implements InfoContributor {
 
-    private final OrderService orderService;
+    private final CurrentData currentData;
 
-    public CompanyInfoContributor(OrderService orderService) {
-        this.orderService = orderService;
+    public CompanyInfoContributor(CurrentData currentData) {
+        this.currentData = currentData;
     }
 
     @Override
     public void contribute(Info.Builder builder) {
-        builder.withDetail("currentDate", orderService.getCurrentDate())
-                .withDetail("profit", orderService.calculateProfit());
+        builder.withDetail("currentDate", currentData.toString());
+               // .withDetail("profit", orderService.calculateProfit());
     }
 }
