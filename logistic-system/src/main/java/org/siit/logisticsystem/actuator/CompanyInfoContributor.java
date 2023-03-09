@@ -18,6 +18,7 @@ public class CompanyInfoContributor implements InfoContributor {
     @Override
     public void contribute(Info.Builder builder) {
         builder.withDetail("currentDate", currentData.toString());
-               // .withDetail("profit", orderService.calculateProfit());
+          //      .withDetail("profit", orderService.calculateProfit())
+         // a se decomenta dupa ce Luca va reusi sa faca clasa orderService cu calculatorul de profit si va merge ulterior
     }
 }
