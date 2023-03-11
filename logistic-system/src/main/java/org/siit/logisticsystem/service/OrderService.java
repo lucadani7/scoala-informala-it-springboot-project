@@ -8,12 +8,13 @@ import org.siit.logisticsystem.exception.DuplicatesNotAllowedException;
 import org.siit.logisticsystem.repository.DestinationRepository;
 import org.siit.logisticsystem.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 
+@Service
 public class OrderService {
     private final OrderRepository orderRepository;
     private DestinationRepository destinationRepository;
