@@ -27,6 +27,7 @@ public class Order {
     private LocalDate deliveryDate;
     @NotNull
     @Column(name = "status")
+    @Enumerated(EnumType.STRING)
     private OrderStatus status;
     @NotNull
     @Column(name = "last_updated")

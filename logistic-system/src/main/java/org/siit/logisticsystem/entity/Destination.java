@@ -5,6 +5,8 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
+import java.util.List;
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -21,4 +23,6 @@ public class Destination {
     @Column(name = "distance")
     @Min(value = 0)
     private double distance;
+    @OneToMany(mappedBy = "destinationID")
+    private List<Order> orders;
 }
