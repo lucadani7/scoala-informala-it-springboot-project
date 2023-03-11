@@ -1,19 +1,15 @@
 package org.siit.logisticsystem.actuator;
 
 import org.siit.logisticsystem.controller.CurrentData;
-import org.siit.logisticsystem.service.OrderService;
 import org.springframework.boot.actuate.info.Info;
 import org.springframework.boot.actuate.info.InfoContributor;
 import org.springframework.stereotype.Component;
-
-import java.time.LocalDate;
 
 
 @Component
 public class CompanyInfoContributor implements InfoContributor {
 
     private final CurrentData currentData;
-    private OrderService orderService;
 
     public CompanyInfoContributor(CurrentData currentData) {
         this.currentData = currentData;
@@ -21,8 +17,8 @@ public class CompanyInfoContributor implements InfoContributor {
 
     @Override
     public void contribute(Info.Builder builder) {
-        builder
-                .withDetail("currentDate", currentData.toString())
-                .withDetail("profit", orderService.calculateProfit(LocalDate.parse(currentData.toString())));
+        builder.withDetail("currentDate", currentData.toString());
+          //      .withDetail("profit", orderService.calculateProfit())
+         // a se decomenta dupa ce Luca va reusi sa faca clasa orderService cu calculatorul de profit si va merge ulterior
     }
 }

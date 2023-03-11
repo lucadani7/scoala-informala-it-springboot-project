@@ -4,6 +4,9 @@ package org.siit.logisticsystem.actuator;
 import org.apache.catalina.core.ApplicationContext;
 import org.springframework.boot.actuate.autoconfigure.info.InfoContributorProperties;
 import org.springframework.boot.actuate.info.InfoEndpoint;
+import org.springframework.boot.info.InfoProperties;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;
