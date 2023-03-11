@@ -12,7 +12,7 @@ import java.util.List;
 @Repository
 public interface OrderRepository extends CrudRepository<Order, Long> {
 
-    default List<Order> findByDeliveryDateAndStatus(LocalDate day, OrderStatus status) {
+    default List<Order> findAllByDeliveryDateAndStatus(LocalDate day, OrderStatus status) {
         List<Order> newList = new ArrayList<>();
         for (var elem : findAll()) {
             if (elem.getDeliveryDate() == day && elem.getStatus().equals(status)) {
