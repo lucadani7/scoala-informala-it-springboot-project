@@ -26,6 +26,7 @@ public class DestinationService {
         if (destinationRepository.existsById(destination.getId())) {
             throw new DestinationException("Destination already exist");
         } else {
+            System.out.println(destination);
             destinationRepository.save(destination);
         }
     }

@@ -1,9 +1,12 @@
 package org.siit.logisticsystem.controller;
 
+import org.siit.logisticsystem.entity.DoubleList;
 import org.siit.logisticsystem.entity.Order;
 import org.siit.logisticsystem.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.HttpMediaTypeNotAcceptableException;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.HttpClientErrorException;
 
 import java.util.List;
 
@@ -28,8 +31,14 @@ public class OrderController {
     }
 
     @PostMapping("/orders/add")
-    public Order addOrder(@RequestBody Order newOrder) {
-        return orderService.addOrder(newOrder);
+    public DoubleList<Order> addOrders(@RequestBody List<Order> newOrders) {
+        System.out.println(newOrders);
+        return orderService.addOrder(newOrders);
+    }
+    @PostMapping("/orders/cancel")
+    public DoubleList<Long> cancelOrders(@RequestBody List<Long> orderIDs){
+        System.out.println(orderIDs);
+        return orderService.cancelOrders(orderIDs);
     }
 
     @PutMapping("/orders/update/{orderID}")

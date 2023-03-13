@@ -2,9 +2,11 @@ package org.siit.logisticsystem.service;
 
 
 import org.siit.logisticsystem.controller.CurrentData;
+import org.siit.logisticsystem.entity.Destination;
+import org.siit.logisticsystem.entity.DoubleList;
 import org.siit.logisticsystem.entity.Order;
+import org.siit.logisticsystem.enums.OrderStatus;
 import org.siit.logisticsystem.exception.DataNotFoundException;
-import org.siit.logisticsystem.exception.DuplicatesNotAllowedException;
 import org.siit.logisticsystem.repository.DestinationRepository;
 import org.siit.logisticsystem.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,10 +15,13 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class OrderService {
+    @Autowired
     private final OrderRepository orderRepository;
+    @Autowired
     private DestinationRepository destinationRepository;
     private CurrentData date;
 
@@ -34,11 +39,52 @@ public class OrderService {
         return orderRepository.findById(orderID).orElseThrow(() -> new DataNotFoundException(message));
     }
 
-    public Order addOrder(Order newOrder) {
-        if (orderRepository.existsById(newOrder.getId())) {
-            throw new DuplicatesNotAllowedException(String.format("The order with id %s is already taken!", newOrder.getId()));
+    public DoubleList<Order> addOrder(List<Order> newOrders) {
+        DoubleList<Order> doubleList = new DoubleList<Order>();
+
+        for(Order order : newOrders){
+            Destination destinationFromOrder = order.getDestinationID();
+            Optional<Destination> destinationFromDb = destinationRepository.findById(order.getDestinationID().getId());
+
+            if(order.getDeliveryDate().compareTo(LocalDate.now())<0)
+            {
+                doubleList.addInFailed(order);
+            }
+            else if(destinationFromDb.isEmpty())
+            {
+                doubleList.addInFailed(order);
+            }
+            else if(!destinationFromDb.get().equals(destinationFromOrder)){
+                doubleList.addInFailed(order);
+            }
+            else
+            {
+                Order orderSaved = orderRepository.save(order);
+                doubleList.addInAdded(orderSaved);
+            }
+
         }
-        return orderRepository.save(newOrder);
+
+        return doubleList;
+
+    }
+
+    public DoubleList<Long> cancelOrders(List<Long> orderIDs){
+        DoubleList<Long> doubleList = new DoubleList<>();
+
+        for(Long id : orderIDs){
+            if(orderRepository.findById(id).isEmpty()) // INVALID ID
+                doubleList.addInFailed(id);
+            else if(orderRepository.findById(id).get().getStatus().equals(OrderStatus.DELIVERED))  // DELIVERED
+                doubleList.addInFailed(id);
+            else {
+                doubleList.addInAdded(id);
+                Order order = orderRepository.findById(id).get();
+                order.setStatus(OrderStatus.CANCELLED);
+                orderRepository.save(order);
+            }
+        }
+        return doubleList;
     }
 
     public Order updateOrder(Order newOrder, long orderID) {

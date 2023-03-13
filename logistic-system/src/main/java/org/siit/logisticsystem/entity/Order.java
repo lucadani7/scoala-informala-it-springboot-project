@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @Entity(name = "orders")
+@ToString
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,4 +33,5 @@ public class Order {
     @NotNull
     @Column(name = "last_updated")
     private LocalDateTime lastUpdated;
+
 }

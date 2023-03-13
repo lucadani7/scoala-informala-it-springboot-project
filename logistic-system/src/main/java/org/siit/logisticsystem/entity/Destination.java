@@ -12,6 +12,8 @@ import java.util.List;
 @Getter
 @Setter
 @Entity(name = "destinations")
+@EqualsAndHashCode
+@ToString
 public class Destination {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,6 +25,5 @@ public class Destination {
     @Column(name = "distance")
     @Min(value = 0)
     private double distance;
-    @OneToMany(mappedBy = "destinationID")
-    private List<Order> orders;
+
 }
