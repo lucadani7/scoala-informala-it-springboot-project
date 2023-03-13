@@ -1,6 +1,6 @@
 package org.siit.logisticsystem.actuator;
 
-import org.siit.logisticsystem.controller.CurrentData;
+import org.siit.logisticsystem.component.CurrentData;
 
 import org.siit.logisticsystem.service.CompanyService;
 import org.springframework.boot.actuate.info.Info;

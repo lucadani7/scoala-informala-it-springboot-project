@@ -1,7 +1,7 @@
 package org.siit.logisticsystem.service;
 
 
-import org.siit.logisticsystem.controller.CurrentData;
+import org.siit.logisticsystem.component.CurrentData;
 import org.siit.logisticsystem.entity.Order;
 import org.siit.logisticsystem.exception.DataNotFoundException;
 import org.siit.logisticsystem.exception.DuplicatesNotAllowedException;
@@ -65,6 +65,6 @@ public class OrderService {
 
     public BigDecimal calculateProfit() {
         ProfitCalculator profitCalculator = new ProfitCalculator(orderRepository, destinationRepository);
-        return profitCalculator.calculateProfit(LocalDate.parse(date.toString()));
+        return profitCalculator.calculateProfit(LocalDate.parse(date.getCalendar().toString()));
     }
 }
