@@ -1,7 +1,8 @@
 package org.siit.logisticsystem.service;
 
 
-import org.siit.logisticsystem.controller.CurrentData;
+import org.siit.logisticsystem.component.CurrentData;
+
 import org.siit.logisticsystem.entity.Destination;
 import org.siit.logisticsystem.entity.DoubleList;
 import org.siit.logisticsystem.entity.Order;
