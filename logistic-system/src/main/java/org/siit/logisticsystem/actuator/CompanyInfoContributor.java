@@ -20,7 +20,7 @@ public class CompanyInfoContributor implements InfoContributor {
     }
     @Override
     public void contribute(Info.Builder builder) {
-        builder.withDetail("currentDate", currentData.toString())
+        builder.withDetail("currentDate", currentData.toLocalDate().toString())
                 .withDetail("profit", companyService.getProfit());
     }
 }
