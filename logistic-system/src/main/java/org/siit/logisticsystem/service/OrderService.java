@@ -63,9 +63,7 @@ public class OrderService {
                 Order orderSaved = orderRepository.save(order);
                 doubleList.addInAdded(orderSaved);
             }
-
         }
-
         return doubleList;
 
     }

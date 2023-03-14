@@ -22,13 +22,12 @@ public class DestinationService {
     // if (...) throw DuplicatesNotAllowedException(...);
     // destinationRepository.save(destination);
     public void save(Destination destination) {
-
         if (destinationRepository.existsById(destination.getId())) {
             throw new DestinationException("Destination already exist");
         } else {
-            System.out.println(destination);
             destinationRepository.save(destination);
         }
+
     }
 
     // No exceptions needed

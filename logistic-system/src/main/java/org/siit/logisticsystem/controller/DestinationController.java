@@ -19,7 +19,7 @@ public class DestinationController {
     private DestinationService destinationService;
 
     @PostMapping("/add")
-    public void saveDestination(@ModelAttribute Destination destination) {
+    public void saveDestination(@RequestBody Destination destination) {
         try {
             destinationService.save(destination);
         } catch (DestinationException destinationException) {
@@ -28,7 +28,7 @@ public class DestinationController {
     }
 
     @PutMapping("/update")
-    public void updateDestination(@ModelAttribute Destination destination) {
+    public void updateDestination(@RequestBody Destination destination) {
         try {
             destinationService.update(destination);
         } catch (DestinationException destinationException) {
