@@ -4,9 +4,7 @@ import org.siit.logisticsystem.entity.DoubleList;
 import org.siit.logisticsystem.entity.Order;
 import org.siit.logisticsystem.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.HttpMediaTypeNotAcceptableException;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.HttpClientErrorException;
 
 import java.util.List;
 
