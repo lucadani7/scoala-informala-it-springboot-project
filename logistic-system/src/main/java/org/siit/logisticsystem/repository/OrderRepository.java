@@ -4,14 +4,18 @@ import org.siit.logisticsystem.algorithm.IterableConverter;
 import org.siit.logisticsystem.entity.Destination;
 import org.siit.logisticsystem.entity.Order;
 import org.siit.logisticsystem.enums.OrderStatus;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
 import java.util.*;
 
 @Repository
-public interface OrderRepository extends CrudRepository<Order, Long> {
+public interface OrderRepository extends JpaRepository<Order, Long> {
+
+    //o fac manual
+    List<Order> findAllByDestinationID(Optional<Destination> destinationId);
+
 
     default List<Destination> findDestinationsWithDeliveringOrders() {
         List<Order> newList = (List<Order>) findAll();

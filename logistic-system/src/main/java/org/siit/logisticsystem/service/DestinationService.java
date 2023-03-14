@@ -1,9 +1,11 @@
 package org.siit.logisticsystem.service;
 
 import org.siit.logisticsystem.entity.Destination;
+import org.siit.logisticsystem.entity.Order;
 import org.siit.logisticsystem.exception.DestinationException;
 
 import org.siit.logisticsystem.repository.DestinationRepository;
+import org.siit.logisticsystem.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,7 +16,8 @@ import java.util.Optional;
 public class DestinationService {
     @Autowired
     private DestinationRepository destinationRepository;
-
+    @Autowired
+    private OrderRepository orderRepository;
 
     // Too long.
     // Replace DestinationException with DuplicatesNotAllowedException
@@ -44,6 +47,8 @@ public class DestinationService {
     // Use Optional class
     public void delete(Long id) {
         if (destinationRepository.existsById(id)) {
+            Optional<Destination> destination = destinationRepository.findById(id);
+            List<Order> allByDestinationId = orderRepository.findAllByDestinationID(destination);
             destinationRepository.deleteById(id);
         } else {
             throw new DestinationException("Id doesn't exist ");
