@@ -27,7 +27,7 @@ public class ShippingController {
     @PostMapping("/shipping/new-day")
     public void shippingController() {
         List<Order> orderList = orderRepository
-                .findByDeliveryDate(LocalDate.parse(new CurrentData().getCalendar().toString()).plusDays(1));
+                .findByDeliveryDate(new CurrentData().toLocalDate().plusDays(1));
         for (Order order : orderList) {
             order.setStatus(OrderStatus.DELIVERING);
             orderRepository.save(order);

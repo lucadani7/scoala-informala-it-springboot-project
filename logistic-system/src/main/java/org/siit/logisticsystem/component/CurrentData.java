@@ -2,7 +2,10 @@ package org.siit.logisticsystem.component;
 
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Calendar;
+import java.util.Date;
 
 @Component
 public class CurrentData {
@@ -13,5 +16,11 @@ public class CurrentData {
 
     public Calendar getCalendar() {
         return calendar;
+    }
+
+    public LocalDate toLocalDate() {
+        ZoneId zoneId = ZoneId.systemDefault();
+        Date date = getCalendar().getTime();
+        return date.toInstant().atZone(zoneId).toLocalDate();
     }
 }

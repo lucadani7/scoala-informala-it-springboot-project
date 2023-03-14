@@ -2,7 +2,6 @@ package org.siit.logisticsystem.service;
 
 
 import org.siit.logisticsystem.component.CurrentData;
-
 import org.siit.logisticsystem.entity.Destination;
 import org.siit.logisticsystem.entity.DoubleList;
 import org.siit.logisticsystem.entity.Order;
@@ -43,23 +42,17 @@ public class OrderService {
     public DoubleList<Order> addOrder(List<Order> newOrders) {
         DoubleList<Order> doubleList = new DoubleList<Order>();
 
-        for(Order order : newOrders){
+        for (Order order : newOrders) {
             Destination destinationFromOrder = order.getDestinationID();
             Optional<Destination> destinationFromDb = destinationRepository.findById(order.getDestinationID().getId());
 
-            if(order.getDeliveryDate().compareTo(LocalDate.now())<0)
-            {
+            if (order.getDeliveryDate().compareTo(LocalDate.now()) < 0) {
                 doubleList.addInFailed(order);
-            }
-            else if(destinationFromDb.isEmpty())
-            {
+            } else if (destinationFromDb.isEmpty()) {
                 doubleList.addInFailed(order);
-            }
-            else if(!destinationFromDb.get().equals(destinationFromOrder)){
+            } else if (!destinationFromDb.get().equals(destinationFromOrder)) {
                 doubleList.addInFailed(order);
-            }
-            else
-            {
+            } else {
                 Order orderSaved = orderRepository.save(order);
                 doubleList.addInAdded(orderSaved);
             }
@@ -68,13 +61,13 @@ public class OrderService {
 
     }
 
-    public DoubleList<Long> cancelOrders(List<Long> orderIDs){
+    public DoubleList<Long> cancelOrders(List<Long> orderIDs) {
         DoubleList<Long> doubleList = new DoubleList<>();
 
-        for(Long id : orderIDs){
-            if(orderRepository.findById(id).isEmpty()) // INVALID ID
+        for (Long id : orderIDs) {
+            if (orderRepository.findById(id).isEmpty()) // INVALID ID
                 doubleList.addInFailed(id);
-            else if(orderRepository.findById(id).get().getStatus().equals(OrderStatus.DELIVERED))  // DELIVERED
+            else if (orderRepository.findById(id).get().getStatus().equals(OrderStatus.DELIVERED))  // DELIVERED
                 doubleList.addInFailed(id);
             else {
                 doubleList.addInAdded(id);
