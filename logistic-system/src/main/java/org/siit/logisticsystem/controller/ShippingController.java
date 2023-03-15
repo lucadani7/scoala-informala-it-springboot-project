@@ -6,35 +6,28 @@ import org.siit.logisticsystem.entity.Order;
 import org.siit.logisticsystem.enums.OrderStatus;
 import org.siit.logisticsystem.repository.OrderRepository;
 import org.siit.logisticsystem.service.DeliveryService;
+import org.siit.logisticsystem.service.ShippingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.time.LocalDate;
 import java.util.List;
 
 @RestController
 public class ShippingController {
-    private final DeliveryService deliveryService;
-    private final OrderRepository orderRepository;
+    private final CurrentData currentData;
+
+    private final ShippingService shippingService;
 
     @Autowired
-    public ShippingController(DeliveryService deliveryService, OrderRepository orderRepository) {
-        this.deliveryService = deliveryService;
-        this.orderRepository = orderRepository;
+    public ShippingController(CurrentData currentData, ShippingService shippingService) {
+        this.currentData = currentData;
+        this.shippingService = shippingService;
     }
 
     @PostMapping("/shipping/new-day")
     public void shippingController() {
-        List<Order> orderList = orderRepository
-                .findByDeliveryDate(new CurrentData().toLocalDate().plusDays(1));
-        for (Order order : orderList) {
-            order.setStatus(OrderStatus.DELIVERING);
-            orderRepository.save(order);
-        }
-        for (Destination destination : orderRepository.findDestinationsWithDeliveringOrders()) {
-            var orderIds = orderRepository.findDeliveringOrderIdsByDestination(destination.getId());
-            deliveryService.startDeliveries(destination, orderIds);
-        }
+        currentData.advanceDay();
+        shippingService.shipOrdersForNewDay();
     }
 }

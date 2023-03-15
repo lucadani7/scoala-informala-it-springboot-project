@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,8 +24,8 @@ public class OrderService {
     private final OrderRepository orderRepository;
     @Autowired
     private DestinationRepository destinationRepository;
-    private CurrentData date;
-
+    @Autowired
+    private CurrentData currentData;
     @Autowired
     public OrderService(OrderRepository orderRepository) {
         this.orderRepository = orderRepository;
@@ -103,6 +104,21 @@ public class OrderService {
 
     public BigDecimal calculateProfit() {
         ProfitCalculator profitCalculator = new ProfitCalculator(orderRepository, destinationRepository);
-        return profitCalculator.calculateProfit(LocalDate.parse(date.toString()));
+        return profitCalculator.calculateProfit(LocalDate.parse(currentData.toString()));
+    }
+
+
+    //LS-03
+    public List<Order> getOrdersByDateAndDestinationName(LocalDate date, String destinationName) {
+
+        if (date == null) {
+            date = currentData.toLocalDate();
+        }
+
+        if (destinationName == null) {
+            return orderRepository.findByDeliveryDate(date);
+        } else {
+            return orderRepository.findByDeliveryDateAndDestinationID_name(date, destinationName);
+        }
     }
 }

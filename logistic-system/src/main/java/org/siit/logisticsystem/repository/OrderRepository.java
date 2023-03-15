@@ -16,6 +16,10 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
     //o fac manual
     List<Order> findAllByDestinationID(Optional<Destination> destinationId);
 
+    List<Order> findByDeliveryDateAndDestinationID(LocalDate date, Destination destination);
+
+    List<Order> findByDeliveryDateAndDestinationID_name(LocalDate date, String destinationName);
+
 
     default List<Destination> findDestinationsWithDeliveringOrders() {
         List<Order> newList = (List<Order>) findAll();
@@ -37,7 +41,8 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
         List<Order> newList = (List<Order>) findAll();
         return newList
                 .stream()
-                .filter(elem -> elem.getDeliveryDate() == date)
+//                .filter(elem -> elem.getDeliveryDate() == date)
+                .filter(elem -> elem.getDeliveryDate().equals(date))
                 .toList();
     }
 
@@ -62,4 +67,6 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
         }
         return new ArrayList<>(orderIdsByDestination.values().size());
     }
+
+
 }
