@@ -22,7 +22,7 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
 
 
     default List<Destination> findDestinationsWithDeliveringOrders() {
-        List<Order> newList = (List<Order>) findAll();
+        List<Order> newList = findAll();
         List<Order> deliveringOrders = newList
                 .stream()
                 .filter(elem -> elem.getStatus().equals(OrderStatus.DELIVERING))
@@ -38,7 +38,7 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
     }
 
     default List<Order> findByDeliveryDate(LocalDate date) {
-        List<Order> newList = (List<Order>) findAll();
+        List<Order> newList = findAll();
         return newList
                 .stream()
 //                .filter(elem -> elem.getDeliveryDate() == date)
@@ -47,7 +47,7 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
     }
 
     default List<Order> findAllByDeliveryDateAndStatus(LocalDate day, OrderStatus status) {
-        List<Order> newList = (List<Order>) findAll();
+        List<Order> newList = findAll();
         return newList
                 .stream()
                 .filter(elem -> elem.getDeliveryDate() == day && elem.getStatus().equals(status))
@@ -58,7 +58,7 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
         List<Long> ordersIdsToLong = new ArrayList<>(List.of(orderIds));
         Long[] array = ordersIdsToLong.toArray(Long[]::new);
         var iterable = new IterableConverter().iteratorToIterable(Arrays.stream(array).iterator());
-        List<Order> orderList = (List<Order>) findAllById(iterable);
+        List<Order> orderList = findAllById(iterable);
         Map<Destination, List<Integer>> orderIdsByDestination = new HashMap<>();
         for (Order order : orderList) {
             Destination destination = order.getDestinationID();
