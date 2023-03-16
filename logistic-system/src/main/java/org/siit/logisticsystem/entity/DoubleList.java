@@ -23,14 +23,13 @@ public class DoubleList<T> {
         this.added = added;
     }
 
-    public void addInFailed(T item){
+    public void addInFailed(T item) {
         failed.add(item);
 
     }
 
-    public void addInAdded(T item){
+    public void addInAdded(T item) {
         added.add(item);
-
     }
 
 }

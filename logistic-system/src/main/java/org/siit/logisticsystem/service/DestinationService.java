@@ -1,69 +1,56 @@
 package org.siit.logisticsystem.service;
 
+import jakarta.transaction.Transactional;
 import org.siit.logisticsystem.entity.Destination;
-import org.siit.logisticsystem.entity.Order;
-import org.siit.logisticsystem.exception.DestinationException;
-
+import org.siit.logisticsystem.exception.DataNotFoundException;
+import org.siit.logisticsystem.exception.DuplicatesNotAllowedException;
 import org.siit.logisticsystem.repository.DestinationRepository;
-import org.siit.logisticsystem.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
+@Transactional
 public class DestinationService {
+
+    private final DestinationRepository destinationRepository;
+
     @Autowired
-    private DestinationRepository destinationRepository;
-    @Autowired
-    private OrderRepository orderRepository;
+    public DestinationService(DestinationRepository destinationRepository) {
+        this.destinationRepository = destinationRepository;
+    }
 
-    // Too long.
-    // Replace DestinationException with DuplicatesNotAllowedException
-    // Your method should look like this:
-    // if (...) throw DuplicatesNotAllowedException(...);
-    // destinationRepository.save(destination);
-    public void save(Destination destination) {
+    public void saveDestination(Destination destination) {
         if (destinationRepository.existsById(destination.getId())) {
-            throw new DestinationException("Destination already exist");
-        } else {
-            destinationRepository.save(destination);
+            throw new DuplicatesNotAllowedException("The destination already exists!");
         }
-
+        destinationRepository.save(destination);
     }
 
-    // No exceptions needed
-    public void update(Destination destination) {
-        if (destinationRepository.existsById(destination.getId())) {
-            destinationRepository.save(destination);
-        } else {
-            throw new DestinationException("ID invalid at update");
-        }
+    public Destination update(Destination newDestination, Long id) {
+        return destinationRepository.findById(id)
+                .map(destination -> {
+                    destination.setName(destination.getName());
+                    destination.setDistance(destination.getDistance());
+                    return destinationRepository.save(destination);
+                })
+                .orElseGet(() -> {
+                    newDestination.setId(newDestination.getId());
+                    return destinationRepository.save(newDestination);
+                });
     }
 
-    // Not good.
-    // Replace DestinationException with DataNotFoundException
-    // Use Optional class
-    public void delete(Long id) {
-        if (destinationRepository.existsById(id)) {
-            Optional<Destination> destination = destinationRepository.findById(id);
-            List<Order> allByDestinationId = orderRepository.findAllByDestinationID(destination);
-            destinationRepository.deleteById(id);
-        } else {
-            throw new DestinationException("Id doesn't exist ");
+    public void deleteDestination(Long id) {
+        if (!destinationRepository.existsById(id)) {
+            throw new DataNotFoundException(String.format("The destination with id %s does not exist!", id));
         }
+        destinationRepository.deleteById(id);
     }
 
-    // Not good.
-    // Replace DestinationException with DataNotFoundException
-    // Use Optional class
-    public Optional<Destination> findById(Long id){
-        if (destinationRepository.existsById(id)) {
-            return destinationRepository.findById(id);
-        } else {
-            throw new DestinationException("Id doesn't exist ");
-        }
+    public Destination getDestinationById(Long id){
+        String message = String.format("The destination with id %s does not exist!", id);
+        return destinationRepository.findById(id).orElseThrow(() -> new DataNotFoundException(message));
     }
 
     public List<Destination> findAll(){

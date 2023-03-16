@@ -1,5 +1,6 @@
 package org.siit.logisticsystem.service;
 
+import lombok.AllArgsConstructor;
 import org.siit.logisticsystem.component.CurrentData;
 import org.siit.logisticsystem.entity.Destination;
 import org.siit.logisticsystem.entity.Order;
@@ -11,18 +12,12 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 @Service
+@AllArgsConstructor
 public class ShippingService {
     private final DeliveryService deliveryService;
     private final OrderRepository orderRepository;
     private final DestinationRepository destinationRepository;
     private final CurrentData currentData;
-
-    public ShippingService(DeliveryService deliveryService, OrderRepository orderRepository, DestinationRepository destinationRepository, CurrentData currentData) {
-        this.deliveryService = deliveryService;
-        this.orderRepository = orderRepository;
-        this.destinationRepository = destinationRepository;
-        this.currentData = currentData;
-    }
 
     public void shipOrdersForNewDay() {
 

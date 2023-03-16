@@ -1,63 +1,44 @@
 package org.siit.logisticsystem.controller;
 
 import org.siit.logisticsystem.entity.Destination;
-import org.siit.logisticsystem.exception.DestinationException;
 import org.siit.logisticsystem.service.DestinationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
-import java.util.Optional;
 
 @RestController
-@RequestMapping("/destinations")
 public class DestinationController {
 
-    // Replace @ModelAttribute annotation with @RequestBody annotation
+    private final DestinationService destinationService;
 
     @Autowired
-    private DestinationService destinationService;
+    public DestinationController(DestinationService destinationService) {
+        this.destinationService = destinationService;
+    }
 
-    @PostMapping("/add")
+    @PostMapping("/destinations/add")
     public void saveDestination(@RequestBody Destination destination) {
-        try {
-            destinationService.save(destination);
-        } catch (DestinationException destinationException) {
-            System.out.println(destinationException.getMessage());
-        }
+        destinationService.saveDestination(destination);
     }
 
-    @PutMapping("/update")
-    public void updateDestination(@RequestBody Destination destination) {
-        try {
-            destinationService.update(destination);
-        } catch (DestinationException destinationException) {
-            System.out.println(destinationException.getMessage());
-        }
+    @PutMapping("/destinations/update/{id}")
+    public Destination updateDestination(@RequestBody Destination destination, @PathVariable Long id) {
+        return destinationService.update(destination, id);
     }
 
-    // No exceptions needed
-    @GetMapping("/{id}")
-    public Optional<Destination> getDestinationById(@PathVariable Long id) {
-        try {
-            return destinationService.findById(id);
-        } catch (DestinationException destinationException) {
-            System.out.println(destinationException.getMessage());
-        }
-        return Optional.empty();//nu a murit nimeni
+    @GetMapping("/destinations/{id}")
+    public Destination getDestinationById(@PathVariable Long id) {
+        return destinationService.getDestinationById(id);
     }
 
-    @GetMapping()
+    @GetMapping("/destinations")
     public List<Destination> getAllDestinations() {
         return destinationService.findAll();
     }
 
-    // No exceptions needed
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/destinations/{id}")
     public void deleteDestination(@PathVariable Long id){
-        try {
-            destinationService.delete(id);
-        }catch (DestinationException destinationException){
-            System.out.println(destinationException.getMessage());
-        }
+        destinationService.deleteDestination(id);
     }
 }
