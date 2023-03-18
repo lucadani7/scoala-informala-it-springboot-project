@@ -34,11 +34,16 @@ public class DestinationService {
     }
 
     public void update(Destination destination) {
-        if (destinationRepository.existsById(destination.getId())) {
-            destinationRepository.save(destination);
-        } else {
-            throw new DataNotFoundException("ID invalid at update");
+        Optional<Destination> optionalDestination = destinationRepository.findById(destination.getId());
+        if (optionalDestination.isEmpty()) {
+            throw new DataNotFoundException(String.format("The destination with id %s does not exist!", destination.getId()));
         }
+        List<Order> orderList = orderRepository.findAllByDestinationID(optionalDestination.get());
+        for (Order order:orderList){
+            order.setDestinationID(destination);
+            orderRepository.save(order);
+        }
+        destinationRepository.save(destination);
     }
 
     public void deleteDestination(Long id) {
