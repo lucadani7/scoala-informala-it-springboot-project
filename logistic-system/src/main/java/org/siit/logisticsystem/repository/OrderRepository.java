@@ -14,7 +14,7 @@ import java.util.*;
 public interface OrderRepository extends JpaRepository<Order, Long> {
 
     //o fac manual
-    List<Order> findAllByDestinationID(Optional<Destination> destinationId);
+    List<Order> findAllByDestinationID(Destination destinationId);
 
     List<Order> findByDeliveryDateAndDestinationID(LocalDate date, Destination destination);
 

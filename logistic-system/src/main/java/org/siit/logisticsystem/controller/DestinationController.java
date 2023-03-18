@@ -1,6 +1,7 @@
 package org.siit.logisticsystem.controller;
 
 import org.siit.logisticsystem.entity.Destination;
+import org.siit.logisticsystem.exception.DataNotFoundException;
 import org.siit.logisticsystem.service.DestinationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -22,9 +23,13 @@ public class DestinationController {
         destinationService.saveDestination(destination);
     }
 
-    @PutMapping("/destinations/update/{id}")
-    public Destination updateDestination(@RequestBody Destination destination, @PathVariable Long id) {
-        return destinationService.update(destination, id);
+    @PutMapping("/destinations/update")
+    public void updateDestination(@RequestBody Destination destination) {
+        try {
+            destinationService.update(destination);
+        } catch (DataNotFoundException destinationException) {
+            System.out.println(destinationException.getMessage());
+        }
     }
 
     @GetMapping("/destinations/{id}")
