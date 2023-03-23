@@ -1,6 +1,5 @@
 package org.siit.logisticsystem.service;
 
-
 import org.siit.logisticsystem.component.CurrentData;
 import org.siit.logisticsystem.entity.Destination;
 import org.siit.logisticsystem.entity.DoubleList;
@@ -97,14 +96,18 @@ public class OrderService {
         orderRepository.deleteById(orderID);
     }
 
-
-    //LS-03
     public List<Order> getOrdersByDateAndDestinationName(LocalDate date, String destinationName) {
         if (date == null) {
             date = currentData.toLocalDate();
         }
-        return (destinationName == null) ? orderRepository.findByDeliveryDate(date)
-                : orderRepository.findByDeliveryDateAndDestinationID_name(date, destinationName);
+        if (destinationName == null) {
+            return orderRepository.findByDeliveryDate(date);
+        }
+        Destination existingDestination = destinationRepository.findByName(destinationName);
+        if (existingDestination == null) {
+            throw new DataNotFoundException("Destination " + destinationName + " was not found in database.");
+        }
+        return orderRepository.findByDeliveryDateAndDestinationID(date, existingDestination);
 
     }
 }
