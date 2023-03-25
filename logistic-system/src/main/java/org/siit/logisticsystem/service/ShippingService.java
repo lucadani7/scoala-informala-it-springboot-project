@@ -33,7 +33,7 @@ public class ShippingService {
 
         Map<Destination, List<Integer>> ordersByDestination = new HashMap<>();
 
-        String destinationsToday = "";
+        StringBuilder destinationsToday = new StringBuilder();
 
         for (Destination destination : destinations) {
             // get orders for destination for current date
@@ -48,11 +48,11 @@ public class ShippingService {
 
             if (!ids.isEmpty()) {
                 ordersByDestination.put(destination, ids);
-                destinationsToday = destinationsToday + destination.getName() + ", ";
+                destinationsToday.append(destination.getName()).append(", ");
             }
         }
 
-        logger.info("Today we will be delivering to {}", destinationsToday );
+        logger.info("Today we will be delivering to {}", destinationsToday);
 
         // call delivery service for each destination
         for(Destination destination : ordersByDestination.keySet()) {
